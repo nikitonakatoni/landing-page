@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SportMax - Экипировка для победы</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- ГЛОБАЛЬНЫЕ СТИЛИ И ПЕРЕМЕННЫЕ --- */
+        :root {
+            --primary-color: #003366; /* Темно-синий */
+            --accent-color: #FF6B00;  /* Оранжевый */
+            --text-color: #333;
+            --bg-color: #FFFFFF;
+            --light-gray: #f4f4f4;
+            --font-family: 'Roboto', sans-serif;
+            --box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 { font-size: 3.5rem; font-weight: 900; }
+        h2 { font-size: 2.5rem; font-weight: 700; }
+        h3 { font-size: 1.5rem; font-weight: 700; }
+
+        a {
+            text-decoration: none;
+            color: var(--accent-color);
+            transition: var(--transition);
+        }
+
+        a:hover {
+            color: var(--primary-color);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #e65c00;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+            color: #fff;
+        }
+
+        .section-title {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+        }
+
+        .text-center { text-align: center; }
+
+        /* --- HEADER & NAVIGATION --- */
+        #header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .navbar {
+            height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary-color);
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--primary-color);
+            font-weight: 700;
+            transition: var(--transition);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hamburger { display: none; cursor: pointer; }
+        .bar { display: block; width: 25px; height: 3px; margin: 5px auto; transition: all 0.3s ease-in-out; background-color: var(--primary-color); }
+
+        /* --- HERO SECTION --- */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=1800') no-repeat center center/cover;
+            z-index: -2;
+            transform: scale(1.1);
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 51, 102, 0.6); /* Темно-синее наложение */
+            z-index: -1;
+        }
+
+        .hero-content {
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- SECTIONS PADDING --- */
+        .catalog-section, .about-section, .contact-section {
+            padding: 80px 0;
+        }
+
+        /* --- CATALOG SECTION --- */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .category-card {
+            background: var(--light-gray);
+            padding: 2rem;
+            text-align: center;
+            border-radius: 10px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--box-shadow);
+            background: var(--primary-color);
+            color: #fff;
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .product-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 51, 102, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-overlay .btn-secondary {
+            background: #fff;
+            color: var(--primary-color);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .product-card:hover .product-overlay .btn-secondary {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h3 {
+            color: var(--primary-color);
+        }
+
+        .product-info p {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            color: #666;
+        }
+
+        .product-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        /* --- ABOUT SECTION --- */
+        .about-section {
+            background: var(--light-gray);
+        }
+
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .about-text .section-title {
+            text-align: left;
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+        }
+
+        /* --- CONTACT SECTION --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .map-container {
+            margin-top: 2rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+        }
+
+        .contact-form-container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .footer .logo {
+            color: #fff;
+        }
+
+        /* --- ANIMATIONS ON SCROLL --- */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- MEDIA QUERIES (ADAPTIVE) --- */
+        @media(max-width: 992px) {
+            h1 { font-size: 2.8rem; }
+            h2 { font-size: 2rem; }
+            
+            .about-container, .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 80px;
+                flex-direction: column;
+                background-color: #fff;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                gap: 0;
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .nav-menu li {
+                width: 100%;
+            }
+
+            .nav-link {
+                padding: 1.5rem;
+                display: block;
+                border-bottom: 1px solid var(--light-gray);
+            }
+            
+            .hamburger {
+                display: block;
+            }
+
+            .hamburger.active .bar:nth-child(2) { opacity: 0; }
+            .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+            h1 { font-size: 2.2rem; }
+            .hero-content p { font-size: 1.1rem; }
+        }
+
+        @media(max-width: 576px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            .categories-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER & NAVIGATION -->
+    <header id="header">
+        <nav class="navbar">
+            <div class="container">
+                <a href="#hero" class="logo">SportMax</a>
+                <ul class="nav-menu">
+                    <li><a href="#hero" class="nav-link">Главная</a></li>
+                    <li><a href="#catalog" class="nav-link">Каталог</a></li>
+                    <li><a href="#about" class="nav-link">О Нас</a></li>
+                    <li><a href="#contact" class="nav-link">Контакты</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section id="hero" class="hero-section">
+            <div class="hero-bg"></div>
+            <div class="container hero-content">
+                <h1 class="animate-on-scroll">ОТКРОЙ СВОЙ МАКСИМУМ СО SPORTMAX!</h1>
+                <p class="animate-on-scroll">Экипировка для победы. Качество для жизни.</p>
+                <a href="#catalog" class="btn btn-primary animate-on-scroll">В Каталог</a>
+            </div>
+        </section>
+
+        <!-- CATALOG SECTION -->
+        <section id="catalog" class="catalog-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">ПОПУЛЯРНЫЕ КАТЕГОРИИ</h2>
+                <div class="categories-grid">
+                    <div class="category-card animate-on-scroll">
+                        <div class="category-icon">👟</div>
+                        <h3>Бег</h3>
+                    </div>
+                    <div class="category-card animate-on-scroll">
+                        <div class="category-icon">🏋️</div>
+                        <h3>Фитнес</h3>
+                    </div>
+                    <div class="category-card animate-on-scroll">
+                        <div class="category-icon">⚽</div>
+                        <h3>Футбол</h3>
+                    </div>
+                    <div class="category-card animate-on-scroll">
+                        <div class="category-icon">🎾</div>
+                        <h3>Теннис</h3>
+                    </div>
+                </div>
+
+                <h2 class="section-title animate-on-scroll">ХИТЫ ПРОДАЖ</h2>
+                <div class="products-grid">
+                    <!-- Product Card 1 -->
+                    <div class="product-card animate-on-scroll">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=1200" alt="Беговые кроссовки">
+                            <div class="product-overlay">
+                                <a href="#" class="btn btn-secondary">Быстрый просмотр</a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Беговые кроссовки "Velocity Pro"</h3>
+                            <p>Легкие, дышащие, с амортизацией для марафона.</p>
+                            <div class="product-price">7 490 руб.</div>
+                        </div>
+                    </div>
+                    <!-- Product Card 2 -->
+                    <div class="product-card animate-on-scroll">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=1200" alt="Футбольный мяч">
+                            <div class="product-overlay">
+                                <a href="#" class="btn btn-secondary">Быстрый просмотр</a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Футбольный мяч "Champion Match"</h3>
+                            <p>Официальный размер 5, износостойкий материал.</p>
+                            <div class="product-price">2 990 руб.</div>
+                        </div>
+                    </div>
+                    <!-- Product Card 3 -->
+                    <div class="product-card animate-on-scroll">
+                        <div class="product-image">
+                            <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=1200" alt="Гантели">
+                            <div class="product-overlay">
+                                <a href="#" class="btn btn-secondary">Быстрый просмотр</a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h3>Гантели наборные 20 кг</h3>
+                            <p>Хромированные, с надежными замками. В комплекте гриф.</p>
+                            <div class="product-price">4 290 руб.</div>
+                        </div>
+                    </div>
+                     <!-- Product Card 4 -->
+                    <div class="product-card animate-on-scroll">
+                        <div class="product-image">
+                           <!-- === ИЗОБРАЖЕНИЕ ЗАМЕНЕНО ЗДЕСЬ === -->
+                           <img src="https://images.unsplash.com/photo-1554068252-a3979853fac8?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=1200" alt="Теннисная ракетка">
+                           <div class="product-overlay">
+                               <a href="#" class="btn btn-secondary">Быстрый просмотр</a>
+                           </div>
+                        </div>
+                       <div class="product-info">
+                           <h3>Теннисная ракетка "Ace Power"</h3>
+                           <p>Углепластик, баланс в голове для мощных ударов.</p>
+                           <div class="product-price">8 990 руб.</div>
+                       </div>
+                   </div>
+                </div>
+                <div class="text-center animate-on-scroll">
+                    <a href="#" class="btn btn-primary">Смотреть Все Товары</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about" class="about-section">
+            <div class="container about-container">
+                <div class="about-image animate-on-scroll">
+                    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=1200" alt="Команда SportMax">
+                </div>
+                <div class="about-text animate-on-scroll">
+                    <h2 class="section-title">НАША ИСТОРИЯ: СПОРТ - ЭТО НАША СТРАСТЬ</h2>
+                    <p>SportMax начался с маленького магазинчика у стадиона в 2010 году, основанного энтузиастами спорта. Наша цель была проста: предоставить спортсменам любого уровня доступ к качественному снаряжению по честным ценам. За годы мы выросли в крупный онлайн-ритейлер, но сохранили главное - любовь к спорту и понимание потребностей наших клиентов. Мы тщательно отбираем бренды, тестируем товары и всегда готовы дать экспертный совет. Наша миссия - вдохновлять и помогать каждому достигать своих спортивных целей!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <h2 class="section-title animate-on-scroll">СВЯЖИТЕСЬ С НАМИ</h2>
+                <div class="contact-grid">
+                    <div class="contact-info animate-on-scroll">
+                        <h3>Контактная информация</h3>
+                        <p><strong>Адрес:</strong> г. Москва, ул. Спортивная, д. 15</p>
+                        <p><strong>Телефон:</strong> <a href="tel:+74951234567">+7 (495) 123-45-67</a></p>
+                        <p><strong>Email:</strong> <a href="mailto:info@sportmax.ru">info@sportmax.ru</a></p>
+                        <p><strong>Часы работы:</strong><br> Пн-Пт: 9:00 - 21:00<br> Сб-Вс: 10:00 - 20:00</p>
+                        <div class="map-container">
+                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2245.742302388656!2d37.61556591609149!3d55.74143498055096!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46b54a5a5d5d5d5d%3A0x46b54a5a5d5d5d5d!2z0JzQvtGB0LrQstCw!5e0!3m2!1sru!2sru!4v1663162234567!5m2!1sru!2sru" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                    <div class="contact-form-container animate-on-scroll">
+                        <h3>Отправить сообщение</h3>
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label for="name">Имя</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Сообщение</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Отправить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <a href="#hero" class="logo">SportMax</a>
+                <p>&copy; 2025 SportMax. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- МОБИЛЬНОЕ МЕНЮ (БУРГЕР) ---
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.nav-link').forEach(n => n.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }));
+
+            // --- ПЛАВНАЯ ПРОКРУТКА ПО ЯКОРНЫМ ССЫЛКАМ ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // --- ПАРАЛЛАКС-ЭФФЕКТ ДЛЯ HERO SECTION ---
+            const heroBg = document.querySelector('.hero-bg');
+            window.addEventListener('scroll', () => {
+                const scrollValue = window.scrollY;
+                // Мягкое смещение фона вверх при скролле
+                heroBg.style.transform = `scale(1.1) translateY(${scrollValue * 0.3}px)`;
+            });
+
+            // --- АНИМАЦИЯ ПОЯВЛЕНИЯ ЭЛЕМЕНТОВ ПРИ СКРОЛЛЕ ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.1 // Элемент считается видимым при появлении на 10%
+            });
+
+            const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+            elementsToAnimate.forEach(el => {
+                observer.observe(el);
+            });
+
+            // --- ОБРАБОТКА КОНТАКТНОЙ ФОРМЫ ---
+            const contactForm = document.getElementById('contact-form');
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault(); // Предотвращаем стандартную отправку формы
+
+                // Здесь в будущем может быть код для отправки данных на сервер (AJAX/Fetch)
+                
+                // Показываем пользователю уведомление
+                alert('Сообщение успешно отправлено! Мы свяжемся с вами в ближайшее время.');
+
+                // Очищаем поля формы
+                contactForm.reset();
+            });
+        });
+    </script>
+</body>
+</html>
